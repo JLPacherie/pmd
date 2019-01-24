@@ -43,6 +43,7 @@ public final class RendererFactory {
         map.put(SummaryHTMLRenderer.NAME, SummaryHTMLRenderer.class);
         map.put(VBHTMLRenderer.NAME, VBHTMLRenderer.class);
         map.put(EmptyRenderer.NAME, EmptyRenderer.class);
+        map.put(CoverityRenderer.NAME, CoverityRenderer.class);
         REPORT_FORMAT_TO_RENDERER = Collections.unmodifiableMap(map);
     }
 
