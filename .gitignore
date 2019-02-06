@@ -13,3 +13,5 @@ bin/
 pmd-core/dependency-reduced-pom.xml
 .bundle
 vendor
+
+cov-import-defects\.json

@@ -31,17 +31,23 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
 
     // TODO 7.0.0 use PropertyDescriptor<String> or something more specialized
 
+    public static final StringProperty COV_STRIP_PATH = new StringProperty("strip-path",
+            "File pathname prefix to be stripped.", "", 0);
+
     public static final StringProperty COV_VERSION = new StringProperty("version",
             "JSON format version, defaults to 1.", "1", 0);
 
     public static final StringProperty COV_FORMAT = new StringProperty("format",
             "JSON format name, defaults to 'cov-import-results input'.", "cov-import-results input", 0);
 
+    private String stripPathPrefic = "";
+
     public CoverityRenderer() {
         super(NAME, "Coverity format for importing results.");
 
         definePropertyDescriptor(COV_VERSION);
         definePropertyDescriptor(COV_FORMAT);
+        definePropertyDescriptor(COV_STRIP_PATH);
 
     }
 
@@ -53,6 +59,10 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
     @Override
     public void start() throws IOException {
 
+        // Read the the strip path prefix once for each run.
+        stripPathPrefic = getProperty(COV_STRIP_PATH);
+
+        // Clear the list of files with exported defects
         fileList.clear();
 
         Writer writer = getWriter();
@@ -85,13 +95,19 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
         boolean result = violation != null && buffer != null;
         if (result) {
 
+            String pathName = violation.getFilename();
+
+            if (!stripPathPrefic.isEmpty() && (pathName.startsWith(stripPathPrefic))) {
+                    pathName = pathName.substring(stripPathPrefic.length());
+            }
+
             if (!isFirstIssue) {
-                buffer.append("\n\t\t,");
+                buffer.append(",\n\t\t");
             }
 
             isFirstIssue = false;
 
-            buffer.append("\t\t{" + PMD.EOL);
+            buffer.append("{" + PMD.EOL);
             buffer.append("\t\t\t\"checker\": \"PMD." + violation.getRule().getName() + "\"," + PMD.EOL);
             buffer.append("\t\t\t\"extra\": \"PMD violations\"," + PMD.EOL);
             buffer.append("\t\t\t\"file\": \"" + violation.getFilename() + "\"," + PMD.EOL);
@@ -106,12 +122,12 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
             buffer.append("\t\t\t  \"events\": [ " + PMD.EOL);
             buffer.append("\t\t\t    {" + PMD.EOL);
             buffer.append("\t\t\t      \"tag\": \"PMD quality violation\"," + PMD.EOL);
-            buffer.append("\t\t\t      \"file\": \"" + violation.getFilename() + "\"," + PMD.EOL);
+            buffer.append("\t\t\t      \"file\": \"" + pathName + "\"," + PMD.EOL);
             buffer.append("\t\t\t      \"linkUrl\": \"" + violation.getRule().getExternalInfoUrl() + "\"," + PMD.EOL);
             buffer.append("\t\t\t      \"linkText\": \"PMD Doc\"," + PMD.EOL);
             buffer.append("\t\t\t      \"description\": \"" + cleanupDoc(violation.getRule().getDescription()) + "\"," + PMD.EOL);
             buffer.append("\t\t\t      \"line\": " + violation.getBeginLine() + "," + PMD.EOL);
-            buffer.append("\t\t\t      \"main\": true" + PMD.EOL);
+            buffer.append("\t\t\t      \"main\":  true" + PMD.EOL);
             buffer.append("\t\t\t    }" + PMD.EOL);
             buffer.append("\t\t\t  ]" + PMD.EOL);
             buffer.append("\t\t\t }" + PMD.EOL);
