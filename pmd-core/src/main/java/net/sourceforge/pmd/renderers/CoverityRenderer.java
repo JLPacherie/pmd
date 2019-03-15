@@ -18,7 +18,6 @@ import net.sourceforge.pmd.RuleViolation;
 import net.sourceforge.pmd.properties.StringProperty;
 
 
-
 /**
  * Renderer to XML format.
  */
@@ -88,7 +87,9 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
     protected String cleanupDoc(String doc) {
         return doc.trim()
                 .replaceAll("(^\n)|(\n$)", "")
-                .replaceAll("\n", " ");
+                .replaceAll("\n", " ")
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"");
     }
 
     protected boolean renderViolation(RuleViolation violation, StringBuilder buffer) {
@@ -97,8 +98,8 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
 
             String pathName = violation.getFilename();
 
-            if (!stripPathPrefic.isEmpty() && (pathName.startsWith(stripPathPrefic))) {
-                    pathName = pathName.substring(stripPathPrefic.length());
+            if (!stripPathPrefic.isEmpty() && pathName.startsWith(stripPathPrefic)) {
+                pathName = pathName.substring(stripPathPrefic.length());
             }
 
             if (!isFirstIssue) {
@@ -115,13 +116,15 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
             buffer.append("\t\t\t\"subcategory\": \"" + "code_quality" + "\"," + PMD.EOL);
             buffer.append("\t\t\t\"properties\": {" + PMD.EOL);
             buffer.append("\t\t\t  \"type\": \"Code maintainability issues\"," + PMD.EOL);
+            buffer.append("\t\t\t  \"category\": \"PMD issues\"," + PMD.EOL);
             buffer.append("\t\t\t  \"impact\": \"low\"," + PMD.EOL);
             buffer.append("\t\t\t  \"longDescription\": \"" + cleanupDoc(violation.getDescription()) + "\"," + PMD.EOL);
             buffer.append("\t\t\t  \"localEffect\": \"Hard to maintain function\"," + PMD.EOL);
-            buffer.append("\t\t\t  \"issueKind\": \"QUALITY\"," + PMD.EOL);
-            buffer.append("\t\t\t  \"events\": [ " + PMD.EOL);
+            buffer.append("\t\t\t  \"issueKind\": \"QUALITY\"" + PMD.EOL);
+            buffer.append("\t\t\t }," + PMD.EOL);
+            buffer.append("\t\t\t\"events\": [ " + PMD.EOL);
             buffer.append("\t\t\t    {" + PMD.EOL);
-            buffer.append("\t\t\t      \"tag\": \"PMD quality violation\"," + PMD.EOL);
+            buffer.append("\t\t\t      \"tag\": \"PMD violation\"," + PMD.EOL);
             buffer.append("\t\t\t      \"file\": \"" + pathName + "\"," + PMD.EOL);
             buffer.append("\t\t\t      \"linkUrl\": \"" + violation.getRule().getExternalInfoUrl() + "\"," + PMD.EOL);
             buffer.append("\t\t\t      \"linkText\": \"PMD Doc\"," + PMD.EOL);
@@ -129,8 +132,7 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
             buffer.append("\t\t\t      \"line\": " + violation.getBeginLine() + "," + PMD.EOL);
             buffer.append("\t\t\t      \"main\":  true" + PMD.EOL);
             buffer.append("\t\t\t    }" + PMD.EOL);
-            buffer.append("\t\t\t  ]" + PMD.EOL);
-            buffer.append("\t\t\t }" + PMD.EOL);
+            buffer.append("\t\t\t ]" + PMD.EOL);
             buffer.append("\t\t}");
         }
         return result;
@@ -166,7 +168,7 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
         writer.write("\n\t\"sources\": [" + PMD.EOL);
 
         writer.write(fileList.stream()
-                .map(f -> "\t\t\t\"" + f + "\"")
+                .map(f -> "\t\t\t{ \"file\": \"" + f + "\", \"encoding\": \"ASCII\" }")
                 .collect(joining("," + PMD.EOL)));
 
         writer.write("\n\t]\n}\n");
