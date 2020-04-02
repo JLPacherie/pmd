@@ -17,7 +17,7 @@ Salesforce.com Apex, Perl, Swift, Matlab, Python.
 
 ## About this fork
 
-This fork is for supporting import of PMD found defects into the Coverity Connect. This will allow users of Coverity to analyze defects from various SAST tools from a same central repository with all the features Coverity provides for triaging, reporting, etc.
+This fork adds support for importing PMD defects into Coverity Connect. This will allow users of Coverity to analyze defects from various SAST tools from a same central repository with all the features Coverity provides for triaging, reporting, etc.
 
 To make it work use the PDM format **coverity** and import the generated file with the regular cov-import-results command of Coverity CLI.
 
