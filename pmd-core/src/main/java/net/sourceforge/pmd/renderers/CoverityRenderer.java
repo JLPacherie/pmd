@@ -4,18 +4,16 @@
 
 package net.sourceforge.pmd.renderers;
 
-import static java.util.stream.Collectors.joining;
-
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 import net.sourceforge.pmd.PMD;
 import net.sourceforge.pmd.RuleViolation;
 import net.sourceforge.pmd.properties.StringProperty;
+
 
 
 /**
@@ -64,7 +62,7 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
         // Clear the list of files with exported defects
         fileList.clear();
 
-        Writer writer = getWriter();
+        //Writer writer = getWriter();
         StringBuilder buf = new StringBuilder(500);
 
         buf.append("\n"
@@ -140,7 +138,7 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
 
     @Override
     public void renderFileViolations(Iterator<RuleViolation> violations) throws IOException {
-        Writer writer = getWriter();
+        //Writer writer = getWriter();
         StringBuilder buf = new StringBuilder(500);
 
 
@@ -159,7 +157,7 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
 
     @Override
     public void end() throws IOException {
-        Writer writer = getWriter();
+        //Writer writer = getWriter();
 
         // End of JSON Array of defect.
         writer.write("]," + PMD.EOL);
@@ -169,7 +167,7 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
 
         writer.write(fileList.stream()
                 .map(f -> "\t\t\t{ \"file\": \"" + f + "\", \"encoding\": \"ASCII\" }")
-                .collect(joining("," + PMD.EOL)));
+                .collect(Collectors.joining("," + PMD.EOL)));
 
         writer.write("\n\t]\n}\n");
     }
