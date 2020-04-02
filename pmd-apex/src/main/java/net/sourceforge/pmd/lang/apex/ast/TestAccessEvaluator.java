@@ -338,4 +338,19 @@ public class TestAccessEvaluator implements AccessEvaluator {
                 && Objects.equals(permGuard, other.permGuard);
         }
     }
+
+    @Override
+    public boolean isSecondGenerationPackagingNamespace(Namespace namespace) {
+        return false;
+    }
+
+    @Override
+    public boolean useTestValueForAnonymousScriptLengthLimit() {
+        return false;
+    }
+
+    @Override
+    public boolean hasNamespaceGuardedAccess(Namespace namespace, String arg1) {
+        return false;
+    }
 }

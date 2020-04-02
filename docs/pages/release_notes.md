@@ -14,86 +14,97 @@ This is a {{ site.pmd.release_type }} release.
 
 ### New and noteworthy
 
-#### New Rules
+#### Performance improvements for XPath 2.0 rules
 
-*   The new Java rule {% rule "java/multithreading/UnsynchronizedStaticFormatter" %} (`java-multithreading`) detects
-    unsynchronized usages of static `java.text.Format` instances. This rule is a more generic replacement of the
-    rule {% rule "java/multithreading/UnsynchronizedStaticDateFormatter" %} which focused just on `DateFormat`.
+XPath rules written with XPath 2.0 now support conversion to a rulechain rule, which
+improves their performance. The rulechain is a mechanism that allows several rules
+to be executed in a single tree traversal. Conversion to the rulechain is possible if
+your XPath expression looks like `//someNode/... | //someOtherNode/...  | ...`, that
+is, a union of one or more path expressions that start with `//`. Instead of traversing
+the whole tree once per path expression (and per rule), a single traversal executes all
+rules in your ruleset as needed.
 
-*   The new Java rule {% rule "java/bestpractices/ForLoopVariableCount" %} (`java-bestpractices`) checks for
-    the number of control variables in a for-loop. Having a lot of control variables makes it harder to understand
-    what the loop does. The maximum allowed number of variables is by default 1 and can be configured by a
-    property.
+This conversion is performed automatically and cannot be disabled. *The conversion should
+not change the result of your rules*, if it does, please report a bug at https://github.com/pmd/pmd/issues
 
-*   The new Java rule {% rule "java/bestpractices/AvoidReassigningLoopVariables" %} (`java-bestpractices`) searches
-    for loop variables that are reassigned. Changing the loop variables additionally to the loop itself can lead to
-    hard-to-find bugs.
+Note that XPath 1.0 support, the default XPath version, is deprecated since PMD 6.22.0.
+**We highly recommend that you upgrade your rules to XPath 2.0**. Please refer to the [migration guide](https://pmd.github.io/latest/pmd_userdocs_extending_writing_xpath_rules.html#migrating-from-10-to-20).
 
-*   The new Java rule {% rule "java/codestyle/UseDiamondOperator" %} (`java-codestyle`) looks for constructor
-    calls with explicit type parameters. Since Java 1.7, these type parameters are not necessary anymore, as they
-    can be inferred now.
 
-#### Modified Rules
-
-*   The Java rule {% rule "java/codestyle/LocalVariableCouldBeFinal" %} (`java-codestyle`) has a new
-    property `ignoreForEachDecl`, which is by default disabled. The new property allows for ignoring
-    non-final loop variables in a for-each statement.
-
-#### Deprecated Rules
-
-*   The Java rule {% rule "java/multithreading/UnsynchronizedStaticDateFormatter" %} has been deprecated and
-    will be removed with PMD 7.0.0. The rule is replaced by the more general
-    {% rule "java/multithreading/UnsynchronizedStaticFormatter" %}.
 
 ### Fixed Issues
 
 *   apex
-    *   [#1542](https://github.com/pmd/pmd/pull/1542): \[apex] Include the documentation category
-*   java
-    * [#1556](https://github.com/pmd/pmd/issues/1556): \[java] Default methods should not be considered abstract
-    *   [#1578](https://github.com/pmd/pmd/issues/1578): \[java] Private field is detected as public inside nested classes in interfaces
-*   java-bestpractices
-    *   [#658](https://github.com/pmd/pmd/issues/658): \[java] OneDeclarationPerLine: False positive for loops
-    *   [#1518](https://github.com/pmd/pmd/issues/1518): \[java] New rule: AvoidReassigningLoopVariable
-    *   [#1519](https://github.com/pmd/pmd/issues/1519): \[java] New rule: ForLoopVariableCount
-*   java-codestyle
-    *   [#1513](https://github.com/pmd/pmd/issues/1513): \[java] LocalVariableCouldBeFinal: allow excluding the variable in a for-each loop
-    *   [#1517](https://github.com/pmd/pmd/issues/1517): \[java] New Rule: UseDiamondOperator
-*   java-errorprone
-    *   [#1035](https://github.com/pmd/pmd/issues/1035): \[java] ReturnFromFinallyBlock: False positive on lambda expression in finally block
-    *   [#1549](https://github.com/pmd/pmd/issues/1549): \[java] NPE in PMD 6.8.0 InvalidSlf4jMessageFormat
-*   java-multithreading
-    *   [#1533](https://github.com/pmd/pmd/issues/1533): \[java] New rule: UnsynchronizedStaticFormatter
-*   plsql
-    *   [#1507](https://github.com/pmd/pmd/issues/1507): \[plsql] Parse Exception when using '||' operator in where clause
-    *   [#1508](https://github.com/pmd/pmd/issues/1508): \[plsql] Parse Exception when using SELECT COUNT(\*)
-    *   [#1509](https://github.com/pmd/pmd/issues/1509): \[plsql] Parse Exception with OUTER/INNER Joins
-    *   [#1511](https://github.com/pmd/pmd/issues/1511): \[plsql] Parse Exception with IS NOT NULL
+    *   [#2210](https://github.com/pmd/pmd/issues/2210): \[apex] ApexCRUDViolation: Support WITH SECURITY_ENFORCED
+    *   [#2358](https://github.com/pmd/pmd/issues/2358): \[apex] Invalid Apex in Cognitive Complexity tests
+*   java-design
+    *   [#2390](https://github.com/pmd/pmd/issues/2390): \[java] AbstractClassWithoutAnyMethod: missing violation for nested classes
 
 ### API Changes
 
-#### Deprecated API
+#### Deprecated APIs
 
-* {% jdoc core::lang.rule.stat.StatisticalRule %} and the related helper classes and base rule classes
-are deprecated for removal in 7.0.0. This includes all of {% jdoc_package core::stat %} and {% jdoc_package core::lang.rule.stat %},
-and also {% jdoc java::lang.java.rule.AbstractStatisticalJavaRule %}, {% jdoc apex::lang.apex.rule.AbstractStatisticalApexRule %} and the like.
-The methods {% jdoc !c!core::Report#addMetric(core::stat.Metric) %} and {% jdoc core::ThreadSafeReportListener#metricAdded(core::stat.Metric) %}
-will also be removed.
+##### Internal API
+
+Those APIs are not intended to be used by clients, and will be hidden or removed with PMD 7.0.0.
+You can identify them with the `@InternalApi` annotation. You'll also get a deprecation warning.
+
+##### In ASTs
+
+As part of the changes we'd like to do to AST classes for 7.0.0, we would like to
+hide some methods and constructors that rule writers should not have access to.
+The following usages are now deprecated in the **Visualforce** and **PLSQL** ASTs:
+
+*   Manual instantiation of nodes. **Constructors of node classes are deprecated** and
+    marked {% jdoc core::annotation.InternalApi %}. Nodes should only be obtained from the parser,
+    which for rules, means that they never need to instantiate node themselves.
+    Those constructors will be made package private with 7.0.0.
+*   **Subclassing of abstract node classes, or usage of their type**. The base classes are internal API
+    and will be hidden in version 7.0.0. You should not couple your code to them.
+    *   In the meantime you should use interfaces like {% jdoc visualforce::lang.vf.ast.VfNode %} or
+        {% jdoc core::lang.ast.Node %}, or the other published interfaces in this package,
+        to refer to nodes generically.
+    *   Concrete node classes will **be made final** with 7.0.0.
+*   Setters found in any node class or interface. **Rules should consider the AST immutable**.
+    We will make those setters package private with 7.0.0.
+*   The implementation classes of {% jdoc core::lang.Parser %} (eg {% jdoc visualforce::lang.vf.VfParser %}) are deprecated and should not be used directly.
+    Use {% jdoc !!core::lang.LanguageVersionHandler#getParser(ParserOptions) %} instead.
+*   The implementation classes of {% jdoc core::lang.TokenManager %} (eg {% jdoc visualforce::lang.vf.VfTokenManager %}) are deprecated and should not be used outside of our implementation.
+    **This also affects CPD-only modules**.
+
+These deprecations are added to the following language modules in this release.
+Please look at the package documentation to find out the full list of deprecations.
+* Visualforce: **{% jdoc_package visualforce::lang.vf.ast %}**
+* PL/SQL: **{% jdoc_package plsql::lang.plsql.ast %}**
+
+These deprecations have already been rolled out in a previous version for the
+following languages:
+* Java: {% jdoc_package java::lang.java.ast %}
+* Java Server Pages: {% jdoc_package jsp::lang.jsp.ast %}
+* Velocity Template Language: {% jdoc_package vm::lang.vm.ast %}
+
+Outside of these packages, these changes also concern the following TokenManager
+implementations, and their corresponding Parser if it exists (in the same package):
+
+*   {% jdoc vm::lang.vm.VmTokenManager %}
+*   {% jdoc java::lang.java.JavaTokenManager %}
+*   {% jdoc python::lang.python.PythonTokenManager %}
+*   {% jdoc visualforce::lang.vf.VfTokenManager %}
+*   {% jdoc plsql::lang.plsql.PLSQLTokenManager %}
+*   {% jdoc jsp::lang.jsp.JspTokenManager %}
+*   {% jdoc modelica::lang.modelica.ModelicaTokenManager %}
+*   {% jdoc cpp::lang.cpp.CppTokenManager %}
+*   {% jdoc javascript::lang.ecmascript5.Ecmascript5TokenManager %}
+*   {% jdoc matlab::lang.matlab.MatlabTokenManager %}
+*   {% jdoc objectivec::lang.objectivec.ObjectiveCTokenManager %}
 
 
 ### External Contributions
 
-*   [#1503](https://github.com/pmd/pmd/pull/1503): \[java] Fix for ReturnFromFinallyBlock false-positives - [RishabhDeep Singh](https://github.com/rishabhdeepsingh)
-*   [#1514](https://github.com/pmd/pmd/pull/1514): \[java] LocalVariableCouldBeFinal: allow excluding the variable in a for-each loop - [Kris Scheibe](https://github.com/kris-scheibe)
-*   [#1516](https://github.com/pmd/pmd/pull/1516): \[java] OneDeclarationPerLine: Don't report multiple variables in a for statement. - [Kris Scheibe](https://github.com/kris-scheibe)
-*   [#1520](https://github.com/pmd/pmd/pull/1520): \[java] New rule: ForLoopVariableCount: check the number of control variables in a for loop - [Kris Scheibe](https://github.com/kris-scheibe)
-*   [#1521](https://github.com/pmd/pmd/pull/1521): \[java] Upgrade to ASM7 for JDK 11 support - [Mark Pritchard](https://github.com/markpritchard)
-*   [#1530](https://github.com/pmd/pmd/pull/1530): \[java] New rule: AvoidReassigningLoopVariables - [Kris Scheibe](https://github.com/kris-scheibe)
-*   [#1534](https://github.com/pmd/pmd/pull/1534): \[java] This is the change regarding the usediamondoperator #1517 - [hemanshu070](https://github.com/hemanshu070)
-*   [#1545](https://github.com/pmd/pmd/pull/1545): \[doc] fixing dead links + tool to check for dead links automatically - [Kris Scheibe](https://github.com/kris-scheibe)
-*   [#1551](https://github.com/pmd/pmd/pull/1551): \[java] InvalidSlf4jMessageFormatRule should not throw NPE for enums - [Robbie Martinus](https://github.com/rmartinus)
-*   [#1552](https://github.com/pmd/pmd/pull/1552): \[core] Upgrading Google Gson from 2.5 to 2.8.5 - [Thunderforge](https://github.com/Thunderforge)
-*   [#1553](https://github.com/pmd/pmd/pull/1553): \[core] Upgrading System Rules dependency from 1.8.0 to 1.19.0 - [Thunderforge](https://github.com/Thunderforge)
+*   [#2312](https://github.com/pmd/pmd/pull/2312): \[apex] Update ApexCRUDViolation Rule - [Joshua S Arquilevich](https://github.com/jarquile)
+*   [#2314](https://github.com/pmd/pmd/pull/2314): \[doc] maven integration - Add version to plugin - [Pham Hai Trung](https://github.com/gpbp)
+*   [#2353](https://github.com/pmd/pmd/pull/2353): \[plsql] xmlforest with optional AS - [Piotr Szymanski](https://github.com/szyman23)
+*   [#2383](https://github.com/pmd/pmd/pull/2383): \[apex] Fix invalid apex in documentation - [Gwilym Kuiper](https://github.com/gwilymatgearset)
 
 {% endtocmaker %}
 

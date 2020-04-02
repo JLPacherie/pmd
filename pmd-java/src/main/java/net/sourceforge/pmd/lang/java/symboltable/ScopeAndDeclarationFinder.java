@@ -21,6 +21,7 @@ import net.sourceforge.pmd.lang.java.ast.ASTLambdaExpression;
 import net.sourceforge.pmd.lang.java.ast.ASTMethodDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTMethodDeclarator;
 import net.sourceforge.pmd.lang.java.ast.ASTPackageDeclaration;
+import net.sourceforge.pmd.lang.java.ast.ASTRecordDeclaration;
 import net.sourceforge.pmd.lang.java.ast.ASTSwitchStatement;
 import net.sourceforge.pmd.lang.java.ast.ASTTryStatement;
 import net.sourceforge.pmd.lang.java.ast.ASTVariableDeclaratorId;
@@ -59,7 +60,7 @@ public class ScopeAndDeclarationFinder extends JavaParserVisitorAdapter {
 
     /**
      * Creates a new {@link ScopeAndDeclarationFinder}.
-     * 
+     *
      * @param classLoader
      *            the class loader to use to resolve types, see
      *            {@link SourceFileScope} and {@link TypeSet}
@@ -125,7 +126,7 @@ public class ScopeAndDeclarationFinder extends JavaParserVisitorAdapter {
      *             if the scope stack is empty.
      */
     private void createClassScope(JavaNode node) {
-        Scope s = ((JavaNode) node.jjtGetParent()).getScope();
+        Scope s = ((JavaNode) node.getParent()).getScope();
         ClassNameDeclaration classNameDeclaration = new ClassNameDeclaration(node);
         s.addDeclaration(classNameDeclaration);
 
@@ -149,7 +150,7 @@ public class ScopeAndDeclarationFinder extends JavaParserVisitorAdapter {
         SourceFileScope scope;
         ASTPackageDeclaration n = node.getPackageDeclaration();
         if (n != null) {
-            scope = new SourceFileScope(classLoader, n.jjtGetChild(0).getImage());
+            scope = new SourceFileScope(classLoader, n.getChild(0).getImage());
         } else {
             scope = new SourceFileScope(classLoader);
         }
@@ -189,6 +190,13 @@ public class ScopeAndDeclarationFinder extends JavaParserVisitorAdapter {
     }
 
     @Override
+    public Object visit(ASTRecordDeclaration node, Object data) {
+        createClassScope(node);
+        cont(node);
+        return data;
+    }
+
+    @Override
     public Object visit(ASTClassOrInterfaceBody node, Object data) {
         if (node.isAnonymousInnerClass() || node.isEnumChild()) {
             createClassScope(node);
@@ -203,11 +211,11 @@ public class ScopeAndDeclarationFinder extends JavaParserVisitorAdapter {
     public Object visit(ASTBlock node, Object data) {
         // top-level blocks for methods should have the same scope as parameters, just skip them
         // same applies to catch statements defining exceptions + the catch block, and for-blocks
-        if (node.jjtGetParent() instanceof ASTMethodDeclaration
-                || node.jjtGetParent() instanceof ASTConstructorDeclaration
-                || node.jjtGetParent() instanceof ASTLambdaExpression
-                || node.jjtGetParent() instanceof ASTCatchStatement
-                || node.jjtGetParent() instanceof ASTForStatement) {
+        if (node.getParent() instanceof ASTMethodDeclaration
+                || node.getParent() instanceof ASTConstructorDeclaration
+                || node.getParent() instanceof ASTLambdaExpression
+                || node.getParent() instanceof ASTCatchStatement
+                || node.getParent() instanceof ASTForStatement) {
             super.visit(node, null);
         } else {
             createLocalScope(node);
@@ -263,6 +271,16 @@ public class ScopeAndDeclarationFinder extends JavaParserVisitorAdapter {
 
     @Override
     public Object visit(ASTVariableDeclaratorId node, Object data) {
+        if (node.isPatternBinding()) {
+            // Don't consider type test patterns here. It could bind to a name
+            // that is already in the scope (e.g. field names).
+            // type tests patterns are tricky to implement
+            // and given it's a preview feature, and the sym table will be replaced
+            // for 7.0, it's not useful to support them.
+            // See https://cr.openjdk.java.net/~briangoetz/amber/pattern-semantics.html#scoping-of-pattern-variables
+            return super.visit(node, data);
+        }
+
         VariableNameDeclaration decl = new VariableNameDeclaration(node);
         node.getScope().addDeclaration(decl);
         node.setNameDeclaration(decl);

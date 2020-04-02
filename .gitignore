@@ -4,6 +4,7 @@ bin/
 .classpath
 .checkstyle
 .pmd
+.pmdruleset.xml
 .ruleset
 .settings/
 *.iml
@@ -15,3 +16,5 @@ pmd-core/dependency-reduced-pom.xml
 vendor
 
 cov-import-defects\.json
+# rule docs are generated
+docs/pages/pmd/rules

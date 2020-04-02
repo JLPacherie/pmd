@@ -3,10 +3,10 @@
   <groupId>apex</groupId>
   <artifactId>apex-jorje-lsp-minimized</artifactId>
   <versioning>
-    <release>2017-11-17</release>
+    <release>2019-11-07-964d4a</release>
     <versions>
-      <version>2017-11-17</version>
+      <version>2019-11-07-964d4a</version>
     </versions>
-    <lastUpdated>20171204195258</lastUpdated>
+    <lastUpdated>20200117105703</lastUpdated>
   </versioning>
 </metadata>

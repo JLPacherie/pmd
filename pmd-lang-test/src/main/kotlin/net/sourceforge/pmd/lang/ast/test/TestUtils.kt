@@ -1,7 +1,12 @@
+/*
+ * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
+ */
+
 package net.sourceforge.pmd.lang.ast.test
 
-import io.kotlintest.Matcher
+import io.kotlintest.should
 import kotlin.reflect.KCallable
+import kotlin.reflect.jvm.isAccessible
 import io.kotlintest.shouldBe as ktShouldBe
 
 /**
@@ -17,6 +22,7 @@ private fun <N, V> assertWrapper(callable: KCallable<N>, right: V, asserter: (N,
     fun formatName() = "::" + callable.name.removePrefix("get").decapitalize()
 
     val value: N = try {
+        callable.isAccessible = true
         callable.call()
     } catch (e: Exception) {
         throw RuntimeException("Couldn't fetch value for property ${formatName()}", e)
@@ -47,4 +53,5 @@ private fun <N, V> assertWrapper(callable: KCallable<N>, right: V, asserter: (N,
  */
 infix fun <N, V : N> KCallable<N>.shouldBe(expected: V?) = this.shouldEqual(expected)
 
-infix fun <T> KCallable<T>.shouldBe(expected: Matcher<T>) = assertWrapper(this, expected) { n, v -> n ktShouldBe v }
+infix fun <T> KCallable<T>.shouldMatch(expected: T.() -> Unit) = assertWrapper(this, expected) { n, v -> n should v }
+

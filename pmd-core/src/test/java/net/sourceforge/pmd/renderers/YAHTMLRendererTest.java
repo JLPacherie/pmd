@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
@@ -30,7 +31,7 @@ import net.sourceforge.pmd.lang.ast.DummyNode;
 import net.sourceforge.pmd.lang.ast.Node;
 import net.sourceforge.pmd.lang.rule.ParametricRuleViolation;
 
-public class YAHTMLRendererTest extends AbstractRendererTst {
+public class YAHTMLRendererTest extends AbstractRendererTest {
 
     private String outputDir;
 
@@ -70,7 +71,7 @@ public class YAHTMLRendererTest extends AbstractRendererTst {
     private RuleViolation newRuleViolation(int endColumn, final String packageNameArg, final String classNameArg) {
         DummyNode node = createNode(endColumn);
         RuleContext ctx = new RuleContext();
-        ctx.setSourceCodeFilename(getSourceCodeFilename());
+        ctx.setSourceCodeFile(new File(getSourceCodeFilename()));
         return new ParametricRuleViolation<Node>(new FooRule(), ctx, node, "blah") {
             {
                 packageName = packageNameArg;
@@ -104,11 +105,16 @@ public class YAHTMLRendererTest extends AbstractRendererTst {
             try (FileInputStream in = new FileInputStream(new File(outputDir, file));
                     InputStream expectedIn = YAHTMLRendererTest.class.getResourceAsStream("yahtml/" + file)) {
                 String data = IOUtils.toString(in, StandardCharsets.UTF_8);
-                String expected = IOUtils.toString(expectedIn, StandardCharsets.UTF_8);
+                String expected = normalizeLineSeparators(IOUtils.toString(expectedIn, StandardCharsets.UTF_8));
 
                 assertEquals("File " + file + " is different", expected, data);
             }
         }
+    }
+
+    private static String normalizeLineSeparators(String s) {
+        return s.replaceAll(Pattern.quote(IOUtils.LINE_SEPARATOR_WINDOWS), IOUtils.LINE_SEPARATOR_UNIX)
+                .replaceAll(Pattern.quote(IOUtils.LINE_SEPARATOR_UNIX), PMD.EOL);
     }
 
     @Override

@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sourceforge.pmd.annotation.Experimental;
+
 /**
  * Created by christoferdutz on 21.09.14.
  */
@@ -21,6 +23,7 @@ public abstract class BaseLanguageModule implements Language {
     protected String terseName;
     protected Class<?> ruleChainVisitorClass;
     protected List<String> extensions;
+    private final List<LanguageVersion> distinctVersions = new ArrayList<>();
     protected Map<String, LanguageVersion> versions;
     protected LanguageVersion defaultVersion;
 
@@ -33,15 +36,29 @@ public abstract class BaseLanguageModule implements Language {
         this.extensions = Arrays.asList(extensions);
     }
 
-    protected void addVersion(String version, LanguageVersionHandler languageVersionHandler, boolean isDefault) {
+    @Experimental
+    protected void addVersions(LanguageVersionHandler languageVersionHandler, boolean isDefault, String ... languageVersions) {
         if (versions == null) {
             versions = new HashMap<>();
         }
-        LanguageVersion languageVersion = new LanguageVersion(this, version, languageVersionHandler);
-        versions.put(version, languageVersion);
+
+        LanguageVersion languageVersion = new LanguageVersion(this, languageVersions[0], languageVersionHandler);
+
+        distinctVersions.add(languageVersion);
+
+        for (String version : languageVersions) {
+            versions.put(version, languageVersion);
+        }
+
         if (isDefault) {
+            assert defaultVersion == null
+                : "Default version already set to " + defaultVersion + ", cannot set it to " + languageVersion;
             defaultVersion = languageVersion;
         }
+    }
+
+    protected void addVersion(String version, LanguageVersionHandler languageVersionHandler, boolean isDefault) {
+        addVersions(languageVersionHandler, isDefault, version);
     }
 
     @Override
@@ -76,7 +93,7 @@ public abstract class BaseLanguageModule implements Language {
 
     @Override
     public List<LanguageVersion> getVersions() {
-        return new ArrayList<>(versions.values());
+        return new ArrayList<>(distinctVersions);
     }
 
     @Override
@@ -94,6 +111,7 @@ public abstract class BaseLanguageModule implements Language {
 
     @Override
     public LanguageVersion getDefaultVersion() {
+        assert defaultVersion != null : "Null default version for language " + this;
         return defaultVersion;
     }
 

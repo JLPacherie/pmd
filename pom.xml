@@ -3,14 +3,18 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.sourceforge.pmd</groupId>
     <artifactId>pmd</artifactId>
-    <version>6.11.0-SNAPSHOT</version>
+    <version>6.23.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>PMD</name>
 
     <description>
-PMD is a source code analyzer. It finds common programming flaws like unused variables, empty catch blocks, unnecessary object creation, and so forth. It supports Java, JavaScript, Salesforce.com Apex, PLSQL, Salesforce.com Visualforce, Apache Velocity, XML, XSL.
+        PMD is a source code analyzer. It finds common programming flaws like unused variables, empty catch blocks,
+        unnecessary object creation, and so forth. It supports Java, JavaScript, Salesforce.com Apex and Visualforce,
+        Modelica, PLSQL, Apache Velocity, XML, XSL, Scala.
 
-Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code in Java, C, C++, C#, Groovy, PHP, Ruby, Fortran, JavaScript, PLSQL, Apache Velocity, Scala, Objective C, Matlab, Python, Go, Swift and Salesforce.com Apex.
+        Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code in
+        C/C++, C#, Dart, Fortran, Go, Groovy, Java, JavaScript, JSP, Kotlin, Lua, Matlab, Modelica,
+        Objective-C, Perl, PHP, PLSQL, Python, Ruby, Salesforce.com Apex, Scala, Swift and Visualforce.
     </description>
 
     <url>https://pmd.github.io/</url>
@@ -41,193 +45,10 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
     </mailingLists>
     <developers>
         <developer>
-            <id>tomcopeland</id>
-            <name>Tom Copeland</name>
-            <email>tom@infoether.com</email>
-            <organization>InfoEther</organization>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>dpeugh</id>
-            <name>David Dixon-Peugh</name>
-            <email>ddp@apache.org</email>
-            <organization>Lockheed Martin Corporation</organization>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>olemartin</id>
-            <name>Ole-Martin Mork</name>
-            <email>olemartin@users.sourceforge.net</email>
-            <organization>Bekk Consulting</organization>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>mikkey</id>
-            <name>Miguel Griffa</name>
-            <email>mikkey@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>phherlin</id>
-            <name>Philippe Herlin</name>
-            <email>phherlin@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>jigerjava</id>
-            <name>Jiger Patel</name>
-            <email>jigerjava@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>kubacki</id>
-            <name>Radim Kubacki</name>
-            <email>kubacki@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>tomslot</id>
-            <name>Tomasz Slota</name>
-            <email>tomslot@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>ezust</id>
-            <name>Alan Ezust</name>
-            <email>ezust@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>nascif</id>
-            <name>Nascif Abousalh Neto</name>
-            <email>nascif@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>allancaplan</id>
-            <name>Allan Caplan</name>
-            <email>allancaplan@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>holobender</id>
-            <name>Sven Jacob</name>
-            <email>holobender@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>wfzelle</id>
-            <name>Wouter Zelle</name>
-            <email>wfzelle@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>hooperbloob</id>
-            <name>Brian Remedios</name>
-            <email>hooperbloob@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>xlv</id>
-            <name>Xavier Le Vourch</name>
-            <email>xlv@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>rgustav</id>
-            <name>Ryan Gustafson</name>
-            <email>rgustav@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>bluejohn</id>
-            <name>Johan Nagels</name>
-            <email>bluejohn@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>tkleiber</id>
-            <name>Torsten Kleiber</name>
-            <url>http://develishdevelopment.wordpress.com</url>
-            <email>tkleiber@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>rpelisse</id>
-            <name>Romain Pelisse</name>
-            <email>rpelisse@users.sourceforge.net</email>
-            <url>http://belaran.eu/</url>
-            <organization>Atos Origin</organization>
-            <organizationUrl>https://osc-service.si.fr.atosorigin.com/</organizationUrl>
-            <roles>
-                <role>Developer</role>
-            </roles>
-            <timezone>+1</timezone>
-            <properties>
-                <picUrl>http://belaran.eu/wordpress/wp-content/uploads/2008/05/RomainPELISSE.jpg</picUrl>
-            </properties>
-        </developer>
-        <developer>
-            <id>adangel</id>
-            <name>Andreas Dangel</name>
-            <email>adangel@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-            <timezone>+1</timezone>
-        </developer>
-        <developer>
-            <id>acanda</id>
-            <name>Philip Graf</name>
-            <email>acanda@users.sourceforge.net</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>jsotuyod</id>
-            <name>Juan Martín Sotuyo Dodero</name>
-            <email>juansotuyo@gmail.com</email>
-            <roles>
-                <role>Developer</role>
-            </roles>
-            <timezone>-3</timezone>
+            <id>github</id>
+            <name>github contributors</name>
+            <organization>github</organization>
+            <organizationUrl>https://github.com/pmd/pmd/graphs/contributors</organizationUrl>
         </developer>
     </developers>
     <scm>
@@ -265,15 +86,17 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
 
 
         <kotlin.compiler.jvmTarget>${maven.compiler.test.target}</kotlin.compiler.jvmTarget>
-        <kotlin.version>1.2.61</kotlin.version>
+        <kotlin.version>1.3.0</kotlin.version>
+        <dokka.version>0.10.0</dokka.version>
 
 
         <javacc.version>5.0</javacc.version>
-        <surefire.version>2.22.0</surefire.version>
-        <checkstyle.version>3.0.0</checkstyle.version>
-        <pmd.plugin.version>3.11.0</pmd.plugin.version>
+        <surefire.version>2.22.1</surefire.version>
+        <checkstyle.version>8.30</checkstyle.version>
+        <checkstyle.plugin.version>3.1.1</checkstyle.plugin.version>
+        <pmd.plugin.version>3.13.0</pmd.plugin.version>
         <ant.version>1.10.1</ant.version>
-        <javadoc.plugin.version>3.0.1</javadoc.plugin.version>
+        <javadoc.plugin.version>3.1.1</javadoc.plugin.version>
         <antlr.version>4.7</antlr.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -282,8 +105,9 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
 
         <argLine>-Xmx512m -Dfile.encoding=${project.build.sourceEncoding}</argLine>
 
-        <pmd.build-tools.version>1.4.0</pmd.build-tools.version>
+        <pmd.build-tools.version>6</pmd.build-tools.version>
 
+        <pmd-designer.version>6.21.0</pmd-designer.version>
     </properties>
 
     <build>
@@ -325,7 +149,7 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.5.3</version>
                     <configuration>
-                        <releaseProfiles>pmd-release</releaseProfiles>
+                        <releaseProfiles>pmd-release,sign</releaseProfiles>
                         <pushChanges>true</pushChanges>
                         <localCheckout>true</localCheckout>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
@@ -432,27 +256,7 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                     <configuration>
                         <forkMode>once</forkMode>
                         <runOrder>alphabetical</runOrder>
-                        <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
-                        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
                     </configuration>
-                    <dependencies>
-                        <!-- Junit 5 = Platform + Jupiter (5) + Vintage (3 & 4)-->
-
-                        <!-- Junit platform -->
-                        <!-- Needed to use kotlintest -->
-                        <dependency>
-                            <groupId>org.junit.platform</groupId>
-                            <artifactId>junit-platform-surefire-provider</artifactId>
-                            <version>1.2.0</version>
-                        </dependency>
-
-                        <!-- Junit 3 & 4 engine -->
-                        <dependency>
-                            <groupId>org.junit.vintage</groupId>
-                            <artifactId>junit-vintage-engine</artifactId>
-                            <version>5.3.0-M1</version>
-                        </dependency>
-                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -482,18 +286,19 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                                 <version>${ant.version}</version>
                             </additionalDependency>
                         </additionalDependencies>
+                        <detectOfflineLinks>false</detectOfflineLinks>
                     </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>${checkstyle.version}</version>
+                    <version>${checkstyle.plugin.version}</version>
                     <executions>
                         <execution>
                             <id>checkstyle-check</id>
                             <phase>verify</phase>
                             <goals>
-                              <goal>check</goal>
+                                <goal>check</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -501,7 +306,7 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>8.12</version>
+                            <version>${checkstyle.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>net.sourceforge.pmd</groupId>
@@ -558,12 +363,12 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                         <dependency>
                             <groupId>net.sourceforge.pmd</groupId>
                             <artifactId>pmd-core</artifactId>
-                            <version>6.9.0</version>
+                            <version>6.22.0</version>
                         </dependency>
                         <dependency>
                             <groupId>net.sourceforge.pmd</groupId>
                             <artifactId>pmd-java</artifactId>
-                            <version>6.9.0</version>
+                            <version>6.22.0</version>
                         </dependency>
                         <!-- This contains the dogfood ruleset -->
                         <dependency>
@@ -584,9 +389,9 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                     <version>1.6.8</version>
                 </plugin>
                 <plugin>
-                      <groupId>org.jacoco</groupId>
-                      <artifactId>jacoco-maven-plugin</artifactId>
-                      <version>0.8.2</version>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.5</version>
                 </plugin>
                 <!--This plugin's configuration is used to store Eclipse
                     m2e settings only. It has no influence on the Maven build itself. -->
@@ -722,7 +527,7 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${checkstyle.version}</version>
+                <version>${checkstyle.plugin.version}</version>
                 <!-- configuration is in plugin management section -->
                 <reportSets>
                     <reportSet>
@@ -812,23 +617,18 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                 </exclusions>
             </dependency>
             <dependency>
-              <groupId>com.beust</groupId>
-              <artifactId>jcommander</artifactId>
-              <version>1.72</version>
+                <groupId>com.beust</groupId>
+                <artifactId>jcommander</artifactId>
+                <version>1.72</version>
             </dependency>
             <dependency>
                 <groupId>org.ow2.asm</groupId>
                 <artifactId>asm</artifactId>
-                <version>7.0</version>
+                <version>7.3.1</version>
             </dependency>
             <dependency>
                 <groupId>net.sourceforge.pmd</groupId>
                 <artifactId>pmd-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.sourceforge.pmd</groupId>
-                <artifactId>pmd-test</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -846,21 +646,6 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                 <groupId>org.mozilla</groupId>
                 <artifactId>rhino</artifactId>
                 <version>1.7.7.2</version>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.12</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hamcrest</groupId>
-                <artifactId>hamcrest-library</artifactId>
-                <version>1.3</version>
-            </dependency>
-            <dependency>
-                <groupId>pl.pragmatists</groupId>
-                <artifactId>JUnitParams</artifactId>
-                <version>1.1.1</version>
             </dependency>
             <dependency>
                 <groupId>net.java.dev.javacc</groupId>
@@ -915,7 +700,12 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
             </dependency>
 
             <!-- TEST DEPENDENCIES -->
-
+            <dependency>
+                <groupId>net.sourceforge.pmd</groupId>
+                <artifactId>pmd-test</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
 
             <dependency>
                 <groupId>net.sourceforge.pmd</groupId>
@@ -924,8 +714,60 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                 <scope>test</scope>
             </dependency>
 
-            <!-- Kotlin -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-library</artifactId>
+                <version>1.3</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>pl.pragmatists</groupId>
+                <artifactId>JUnitParams</artifactId>
+                <version>1.1.1</version>
+                <scope>test</scope>
+            </dependency>
 
+            <!-- Junit 5 Engine -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>5.5.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>5.5.0</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-commons</artifactId>
+                <version>1.5.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-launcher</artifactId>
+                <version>1.5.0</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Junit 3 & 4 engine -->
+            <dependency>
+                <groupId>org.junit.vintage</groupId>
+                <artifactId>junit-vintage-engine</artifactId>
+                <version>5.5.0</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Kotlin -->
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib</artifactId>
@@ -936,6 +778,13 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib-jdk8</artifactId>
+                <version>${kotlin.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-reflect</artifactId>
                 <version>${kotlin.version}</version>
                 <scope>test</scope>
             </dependency>
@@ -953,11 +802,22 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                 <version>3.1.8</version>
                 <scope>test</scope>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
     <repositories>
+        <repository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>sonatype-nexus-snapshots</id>
             <name>Sonatype Nexus Snapshots</name>
@@ -969,14 +829,6 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        <repository>
-            <id>central</id>
-            <name>Central Repository</name>
-            <url>https://repo.maven.apache.org/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -984,6 +836,7 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
             <name>Central Repository</name>
             <url>https://repo.maven.apache.org/maven2</url>
             <releases>
+                <enabled>true</enabled>
                 <updatePolicy>never</updatePolicy>
             </releases>
             <snapshots>
@@ -1001,6 +854,19 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
+        <pluginRepository>
+            <!-- needed for dokka-maven-plugin in pmd-lang-test -->
+            <id>jcenter</id>
+            <name>JCenter</name>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <url>https://jcenter.bintray.com/</url>
+        </pluginRepository>
     </pluginRepositories>
 
     <profiles>
@@ -1009,6 +875,9 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
             <properties>
                 <pmd.website.baseurl>https://pmd.github.io/pmd-${project.version}</pmd.website.baseurl>
             </properties>
+        </profile>
+        <profile>
+            <id>sign</id>
             <build>
                 <plugins>
                     <plugin>
@@ -1022,6 +891,14 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <!-- https://issues.apache.org/jira/browse/MGPG-59 - once m-gpg-p 1.7. is released,
+                                         this should not be needed anymore -->
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
@@ -1051,16 +928,16 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
             <build>
                 <plugins>
                     <plugin>
-                      <groupId>org.jacoco</groupId>
-                      <artifactId>jacoco-maven-plugin</artifactId>
-                      <executions>
-                          <execution>
-                              <id>default-prepare-agent</id>
-                              <goals>
-                                  <goal>prepare-agent</goal>
-                              </goals>
-                          </execution>
-                      </executions>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>default-prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                     <plugin>
                         <groupId>org.eluder.coveralls</groupId>
@@ -1086,6 +963,7 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
             <id>sonar</id>
             <properties>
                 <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+                <sonar.organization>pmd</sonar.organization>
             </properties>
             <build>
                 <pluginManagement>
@@ -1093,22 +971,22 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
                         <plugin>
                             <groupId>org.sonarsource.scanner.maven</groupId>
                             <artifactId>sonar-maven-plugin</artifactId>
-                            <version>3.4.1.1168</version>
+                            <version>3.7.0.1746</version>
                         </plugin>
                     </plugins>
                 </pluginManagement>
                 <plugins>
                     <plugin>
-                      <groupId>org.jacoco</groupId>
-                      <artifactId>jacoco-maven-plugin</artifactId>
-                      <executions>
-                          <execution>
-                              <id>default-prepare-agent</id>
-                              <goals>
-                                  <goal>prepare-agent</goal>
-                              </goals>
-                          </execution>
-                      </executions>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>default-prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
@@ -1119,15 +997,18 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
         <module>pmd-core</module>
         <module>pmd-cpp</module>
         <module>pmd-cs</module>
+        <module>pmd-dart</module>
         <module>pmd-dist</module>
         <module>pmd-fortran</module>
         <module>pmd-go</module>
         <module>pmd-groovy</module>
+        <module>pmd-lua</module>
         <module>pmd-java</module>
         <module>pmd-javascript</module>
         <module>pmd-jsp</module>
         <module>pmd-kotlin</module>
         <module>pmd-matlab</module>
+        <module>pmd-modelica</module>
         <module>pmd-objectivec</module>
         <module>pmd-perl</module>
         <module>pmd-php</module>
@@ -1145,7 +1026,6 @@ Additionally it includes CPD, the copy-paste-detector. CPD finds duplicated code
         <module>pmd-apex-jorje</module>
         <module>pmd-apex</module>
         <module>pmd-java8</module>
-        <module>pmd-ui</module>
         <module>pmd-doc</module>
         <module>pmd-lang-test</module>
     </modules>
