@@ -18,3 +18,4 @@ vendor
 cov-import-defects\.json
 # rule docs are generated
 docs/pages/pmd/rules
+*.errors.xml

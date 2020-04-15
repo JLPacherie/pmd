@@ -4,6 +4,7 @@
 
 package net.sourceforge.pmd.renderers;
 
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -44,6 +45,7 @@ public final class RendererFactory {
         map.put(VBHTMLRenderer.NAME, VBHTMLRenderer.class);
         map.put(EmptyRenderer.NAME, EmptyRenderer.class);
         map.put(CoverityRenderer.NAME, CoverityRenderer.class);
+        map.put(PolarisRenderer.NAME, PolarisRenderer.class);
         REPORT_FORMAT_TO_RENDERER = Collections.unmodifiableMap(map);
     }
 
