@@ -16,9 +16,13 @@ import net.sourceforge.pmd.lang.ast.ParseException;
  * @author Pieter_Van_Raemdonck - Application Engineers NV/SA - www.ae.be
  */
 public interface Parser {
+
     /**
      * Get the ParserOptions used by this Parser.
+     *
+     * @deprecated Parser options should be a parameter to {@link #parse(String, Reader)}
      */
+    @Deprecated
     ParserOptions getParserOptions();
 
     /**
@@ -29,7 +33,9 @@ public interface Parser {
      * @param source
      *            Reader that provides the source code to tokenize.
      * @return A TokenManager for reading token.
+     * @deprecated For removal in 7.0.0
      */
+    @Deprecated
     TokenManager getTokenManager(String fileName, Reader source);
 
 

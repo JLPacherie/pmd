@@ -24,6 +24,7 @@ import net.sourceforge.pmd.lang.ast.xpath.DocumentNavigator;
 import net.sourceforge.pmd.lang.rule.AbstractRuleChainVisitor;
 import net.sourceforge.pmd.lang.rule.AbstractRuleViolationFactory;
 import net.sourceforge.pmd.lang.rule.ParametricRuleViolation;
+import net.sourceforge.pmd.lang.rule.RuleChainVisitor;
 
 import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.sxpath.IndependentContext;
@@ -37,18 +38,23 @@ public class DummyLanguageModule extends BaseLanguageModule {
     public static final String TERSE_NAME = "dummy";
 
     public DummyLanguageModule() {
-        super(NAME, null, TERSE_NAME, DummyRuleChainVisitor.class, "dummy");
-        addVersion("1.0", new Handler(), false);
-        addVersion("1.1", new Handler(), false);
-        addVersion("1.2", new Handler(), false);
-        addVersion("1.3", new Handler(), false);
-        addVersion("1.4", new Handler(), false);
-        addVersions(new Handler(), false, "1.5", "5");
-        addVersions(new Handler(), false, "1.6", "6");
-        addVersions(new Handler(), true, "1.7", "7");
-        addVersions(new Handler(), false, "1.8", "8");
+        super(NAME, null, TERSE_NAME, "dummy");
+        addVersion("1.0", new Handler());
+        addVersion("1.1", new Handler());
+        addVersion("1.2", new Handler());
+        addVersion("1.3", new Handler());
+        addVersion("1.4", new Handler());
+        addVersion("1.5", new Handler(), "5");
+        addVersion("1.6", new Handler(), "6");
+        addDefaultVersion("1.7", new Handler(), "7");
+        addVersion("1.8", new Handler(), "8");
     }
 
+    /**
+     * @deprecated for removal with PMD 7. A language dependent rule chain visitor is not needed anymore.
+     *      See {@link RuleChainVisitor}.
+     */
+    @Deprecated
     public static class DummyRuleChainVisitor extends AbstractRuleChainVisitor {
         @Override
         protected void visit(Rule rule, Node node, RuleContext ctx) {

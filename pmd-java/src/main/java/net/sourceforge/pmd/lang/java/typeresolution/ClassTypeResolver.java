@@ -99,6 +99,7 @@ import net.sourceforge.pmd.lang.java.ast.JavaParserVisitorAdapter;
 import net.sourceforge.pmd.lang.java.ast.TypeNode;
 import net.sourceforge.pmd.lang.java.symboltable.ClassScope;
 import net.sourceforge.pmd.lang.java.symboltable.VariableNameDeclaration;
+import net.sourceforge.pmd.lang.java.typeresolution.internal.NullableClassLoader;
 import net.sourceforge.pmd.lang.java.typeresolution.typedefinition.JavaTypeDefinition;
 import net.sourceforge.pmd.lang.symboltable.NameOccurrence;
 import net.sourceforge.pmd.lang.symboltable.Scope;
@@ -112,7 +113,7 @@ import net.sourceforge.pmd.lang.symboltable.Scope;
 
 @Deprecated
 @InternalApi
-public class ClassTypeResolver extends JavaParserVisitorAdapter {
+public class ClassTypeResolver extends JavaParserVisitorAdapter implements NullableClassLoader {
 
     private static final Logger LOG = Logger.getLogger(ClassTypeResolver.class.getName());
 
@@ -894,7 +895,7 @@ public class ClassTypeResolver extends JavaParserVisitorAdapter {
             // skip children which already have their type assigned
             if (currentChild.getType() == null) {
                 // Last token, because if 'this' is a Suffix, it'll have tokens '.' and 'this'
-                if (currentChild.jjtGetLastToken().toString().equals("this")) {
+                if ("this".equals(currentChild.jjtGetLastToken().toString())) {
 
                     if (previousChild != null) { // Qualified 'this' expression
                         currentChild.setTypeDefinition(previousChild.getTypeDefinition());
@@ -908,7 +909,7 @@ public class ClassTypeResolver extends JavaParserVisitorAdapter {
                     }
 
                     // Last token, because if 'super' is a Suffix, it'll have tokens '.' and 'super'
-                } else if (currentChild.jjtGetLastToken().toString().equals("super")) {
+                } else if ("super".equals(currentChild.jjtGetLastToken().toString())) {
 
                     if (previousChild != null) { // Qualified 'super' expression
                         // anonymous classes can't have qualified super expression, thus
@@ -1487,8 +1488,13 @@ public class ClassTypeResolver extends JavaParserVisitorAdapter {
         return pmdClassLoader.loadClassOrNull(fullyQualifiedClassName) != null;
     }
 
-    public Class<?> loadClass(String fullyQualifiedClassName) {
+    @Override
+    public Class<?> loadClassOrNull(String fullyQualifiedClassName) {
         return pmdClassLoader.loadClassOrNull(fullyQualifiedClassName);
+    }
+
+    public Class<?> loadClass(String fullyQualifiedClassName) {
+        return loadClassOrNull(fullyQualifiedClassName);
     }
 
     private Class<?> processOnDemand(String qualifiedName) {
@@ -1533,12 +1539,12 @@ public class ClassTypeResolver extends JavaParserVisitorAdapter {
             String strPackage = anImportDeclaration.getPackageName();
             if (anImportDeclaration.isStatic()) {
                 if (anImportDeclaration.isImportOnDemand()) {
-                    importOnDemandStaticClasses.add(JavaTypeDefinition.forClass(loadClass(strPackage)));
+                    importOnDemandStaticClasses.add(JavaTypeDefinition.forClass(loadClassOrNull(strPackage)));
                 } else { // not import on-demand
                     String strName = anImportDeclaration.getImportedName();
                     String fieldName = strName.substring(strName.lastIndexOf('.') + 1);
 
-                    Class<?> staticClassWithField = loadClass(strPackage);
+                    Class<?> staticClassWithField = loadClassOrNull(strPackage);
                     if (staticClassWithField != null) {
                         JavaTypeDefinition typeDef = getFieldType(JavaTypeDefinition.forClass(staticClassWithField),
                                                                   fieldName, currentAcu.getType());

@@ -1,4 +1,4 @@
-/**
+/*
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
 
@@ -9,11 +9,14 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import net.sourceforge.pmd.Rule;
+import net.sourceforge.pmd.annotation.InternalApi;
 
 import apex.jorje.semantic.ast.modifier.Annotation;
 
 public class ASTAnnotation extends AbstractApexNode<Annotation> {
 
+    @Deprecated
+    @InternalApi
     public ASTAnnotation(Annotation annotation) {
         super(annotation);
     }
@@ -28,6 +31,10 @@ public class ASTAnnotation extends AbstractApexNode<Annotation> {
         return node.getType().getApexName();
     }
 
+    /**
+     * @deprecated Will be removed in 7.0, the AST shouldn't know about rules
+     */
+    @Deprecated
     public boolean suppresses(Rule rule) {
         final String ruleAnno = "PMD." + rule.getName();
 

@@ -4,17 +4,69 @@ permalink: pmd_next_major_development.html
 keywords: changelog, release notes, deprecation, api changes
 ---
 
-We're excited to bring you the next major version of PMD! Here are the major features and changes we're working on.
+We're excited to bring you the next major version of PMD!
+Here is a summary of what is planned for PMD 7.
+
 To give us feedback or to suggest a new feature, drop us a line on [Gitter](https://gitter.im/pmd/pmd)!
 
-## New Features
+## Summary
 
-TODO
+### New Logo
 
-## Java grammar changes
+We decided it's time to have a modernized logo and get rid of the gun. This allows to include
+the logo in anywhere without offense.
 
-{% include note.html content="Current plans are listed [here](https://github.com/pmd/pmd/labels/in%3Aast) and in particular [here](https://github.com/pmd/pmd/issues/1019)" %}
+The current tasks are listed here: [Integrate new PMD logo #1931](https://github.com/pmd/pmd/issues/1931)
 
+### API
+
+The API of PMD has been growing over the years and needs to be cleaned up. The goal is, to
+have a clear separation between a well-defined API and the implementation, which is internal.
+This should help us in future development. This however entails some incompatibilities and
+deprecations, see also the sections [New API support guidelines](#new-api-support-guidelines) and
+[Planned API removals](#planned-api-removals] below.
+
+### Full Antlr Support
+
+PMD 6 only supports JavaCC based grammars, but with [Antlr](https://www.antlr.org/) parsers
+can be generated as well. PMD 7 adds full support for grammars written in Antlr, which allows
+to leverage existing grammars.
+
+The current tasks are listed here: [Support for ANTLR based grammars with Swift as an example language #2499](https://github.com/pmd/pmd/issues/2499)
+
+### Documentation
+
+We have quite some ideas how we want to improve the documentation. The goal is, that the documentation is
+up to date and nearly complete. One big task is, how the built-in rules are presented, so that users
+can easier see, what exactly is available and decide, which rules are useful for the project at hand.
+
+The current tasks are listed here: [Documentations improvements tracker #1139](https://github.com/pmd/pmd/issues/1139)
+
+### XPath
+
+PMD 6 supports XPath 1.0 via the Jaxen library. This library is old and unmaintained creating some problems
+(one of which is duplicated classes in the package `org.w3c.dom` which is a Java API actually).
+Therefore XPath 1.0 support will be dropped and we upgrade our XPath 2.0 implementation with Saxon moving
+on to Saxon HE. This will eventually add support in PMD for XPath 3.1.
+
+The current tasks are listed here: [XPath Improvements for PMD 7 #2523](https://github.com/pmd/pmd/issues/2523)
+
+### Java
+
+Like the main PMD API, the Java AST has been growing over time and the grammar doesn't support
+all edge cases (e.g. annotation are not supported everywhere). The goal is to simplify the AST by reducing
+unnecessary nodes and abstractions and fix the parsing issues.
+This helps in the end to provide a better type resolution implementation, but changing the AST is a breaking
+API change.
+
+Some first results of the Java AST changes are for now documented in the Wiki:
+[Java clean changes](https://github.com/pmd/pmd/wiki/Java_clean_changes).
+
+### Miscellaneous
+
+There are also some small improvements, refactoring and internal tasks that are planned for PMD 7.
+
+The current tasks are listed here: [PMD 7 Miscellaneous Tasks #2524](https://github.com/pmd/pmd/issues/2524)
 
 
 ## New API support guidelines
@@ -72,6 +124,174 @@ the breaking API changes will be performed in 7.0.0.
 {% include warning.html content="This list is not exhaustive. The ultimate reference is whether
 an API is tagged as `@Deprecated` or not in the latest minor release. During the development of 7.0.0,
 we may decide to remove some APIs that were not tagged as deprecated, though we'll try to avoid it." %}
+
+#### 6.26.0
+
+##### Deprecated API
+
+###### For removal
+
+* {% jdoc core::lang.rule.RuleChainVisitor %} and all implementations in language modules
+* {% jdoc core::lang.rule.AbstractRuleChainVisitor %}
+* {% jdoc !!core::lang.Language#getRuleChainVisitorClass() %}
+* {% jdoc !!core::lang.BaseLanguageModule#<init>(java.lang.String,java.lang.String,java.lang.String,java.lang.Class,java.lang.String...) %}
+* {% jdoc core::lang.rule.ImportWrapper %}
+
+#### 6.25.0
+
+*   The maven module `net.sourceforge.pmd:pmd-scala` is deprecated. Use `net.sourceforge.pmd:pmd-scala_2.13`
+    or `net.sourceforge.pmd:pmd-scala_2.12` instead.
+
+*   Rule implementation classes are internal API and should not be used by clients directly.
+    The rules should only be referenced via their entry in the corresponding category ruleset
+    (e.g. `<rule ref="category/java/bestpractices.xml/AbstractClassWithoutAbstractMethod" />`).
+    
+    While we definitely won't move or rename the rule classes in PMD 6.x, we might consider changes
+    in PMD 7.0.0 and onwards.
+
+##### Deprecated APIs
+
+###### Internal API
+
+Those APIs are not intended to be used by clients, and will be hidden or removed with PMD 7.0.0.
+You can identify them with the `@InternalApi` annotation. You'll also get a deprecation warning.
+
+*   {% jdoc java::lang.java.rule.AbstractIgnoredAnnotationRule %} (Java)
+*   {% jdoc java::lang.java.rule.AbstractInefficientZeroCheck %} (Java)
+*   {% jdoc java::lang.java.rule.AbstractJUnitRule %} (Java)
+*   {% jdoc java::lang.java.rule.AbstractJavaMetricsRule %} (Java)
+*   {% jdoc java::lang.java.rule.AbstractLombokAwareRule %} (Java)
+*   {% jdoc java::lang.java.rule.AbstractPoorMethodCall %} (Java)
+*   {% jdoc java::lang.java.rule.bestpractices.AbstractSunSecureRule %} (Java)
+*   {% jdoc java::lang.java.rule.design.AbstractNcssCountRule %} (Java)
+*   {% jdoc java::lang.java.rule.documentation.AbstractCommentRule %} (Java)
+*   {% jdoc java::lang.java.rule.performance.AbstractOptimizationRule %} (Java)
+*   {% jdoc java::lang.java.rule.regex.RegexHelper %} (Java)
+*   {% jdoc apex::lang.apex.rule.AbstractApexUnitTestRule %} (Apex)
+*   {% jdoc apex::lang.apex.rule.design.AbstractNcssCountRule %} (Apex)
+*   {% jdoc plsql::lang.plsql.rule.design.AbstractNcssCountRule %} (PLSQL)
+*   {% jdoc apex::lang.apex.ApexParser %}
+*   {% jdoc apex::lang.apex.ApexHandler %}
+*   {% jdoc core::RuleChain %}
+*   {% jdoc core::RuleSets %}
+*   {% jdoc !!core::RulesetsFactoryUtils#getRuleSets(java.lang.String, net.sourceforge.pmd.RuleSetFactory) %}
+
+###### For removal
+
+*   {% jdoc !!core::cpd.TokenEntry#TokenEntry(java.lang.String, java.lang.String, int) %}
+*   {% jdoc test::testframework.AbstractTokenizerTest %}. Use CpdTextComparisonTest in module pmd-lang-test instead.
+    For details see
+    [Testing your implementation](pmd_devdocs_major_adding_new_cpd_language.html#testing-your-implementation)
+    in the developer documentation.
+*   {% jdoc !!apex::lang.apex.ast.ASTAnnotation#suppresses(core::Rule) %} (Apex)
+*   {% jdoc apex::lang.apex.rule.ApexXPathRule %} (Apex)
+*   {% jdoc java::lang.java.rule.SymbolTableTestRule %} (Java)
+*   {% jdoc !!java::lang.java.rule.performance.InefficientStringBufferingRule#isInStringBufferOperation(net.sourceforge.pmd.lang.ast.Node, int, java.lang.String) %}
+
+#### 6.24.0
+
+##### Deprecated APIs
+
+*   {% jdoc !ca!core::lang.BaseLanguageModule#addVersion(String, LanguageVersionHandler, boolean) %}
+*   Some members of {% jdoc core::lang.ast.TokenMgrError %}, in particular, a new constructor is available
+    that should be preferred to the old ones
+*   {% jdoc core::lang.antlr.AntlrTokenManager.ANTLRSyntaxError %}
+
+##### Experimental APIs
+
+**Note:** Experimental APIs are identified with the annotation {% jdoc core::annotation.Experimental %},
+see its javadoc for details
+
+* The experimental methods in {% jdoc !ca!core::lang.BaseLanguageModule %} have been replaced by a
+definitive API.
+
+#### 6.23.0
+
+##### Deprecated APIs
+
+###### Internal API
+
+Those APIs are not intended to be used by clients, and will be hidden or removed with PMD 7.0.0.
+You can identify them with the `@InternalApi` annotation. You'll also get a deprecation warning.
+
+*   {% jdoc core::lang.rule.xpath.AbstractXPathRuleQuery %}
+*   {% jdoc core::lang.rule.xpath.JaxenXPathRuleQuery %}
+*   {% jdoc core::lang.rule.xpath.SaxonXPathRuleQuery %}
+*   {% jdoc core::lang.rule.xpath.XPathRuleQuery %}
+
+###### In ASTs
+
+As part of the changes we'd like to do to AST classes for 7.0.0, we would like to
+hide some methods and constructors that rule writers should not have access to.
+The following usages are now deprecated in the **Apex**, **Javascript**, **PL/SQL**, **Scala** and **Visualforce** ASTs:
+
+*   Manual instantiation of nodes. **Constructors of node classes are deprecated** and
+    marked {% jdoc core::annotation.InternalApi %}. Nodes should only be obtained from the parser,
+    which for rules, means that they never need to instantiate node themselves.
+    Those constructors will be made package private with 7.0.0.
+*   **Subclassing of abstract node classes, or usage of their type**. The base classes are internal API
+    and will be hidden in version 7.0.0. You should not couple your code to them.
+    *   In the meantime you should use interfaces like {% jdoc visualforce::lang.vf.ast.VfNode %} or
+        {% jdoc core::lang.ast.Node %}, or the other published interfaces in this package,
+        to refer to nodes generically.
+    *   Concrete node classes will **be made final** with 7.0.0.
+*   Setters found in any node class or interface. **Rules should consider the AST immutable**.
+    We will make those setters package private with 7.0.0.
+*   The implementation classes of {% jdoc core::lang.Parser %} (eg {% jdoc visualforce::lang.vf.VfParser %}) are deprecated and should not be used directly.
+    Use {% jdoc !!core::lang.LanguageVersionHandler#getParser(ParserOptions) %} instead.
+*   The implementation classes of {% jdoc core::lang.TokenManager %} (eg {% jdoc visualforce::lang.vf.VfTokenManager %}) are deprecated and should not be used outside of our implementation.
+    **This also affects CPD-only modules**.
+
+These deprecations are added to the following language modules in this release.
+Please look at the package documentation to find out the full list of deprecations.
+* Apex: **{% jdoc_package apex::lang.apex.ast %}**
+* Javascript: **{% jdoc_package javascript::lang.ecmascript.ast %}**
+* PL/SQL: **{% jdoc_package plsql::lang.plsql.ast %}**
+* Scala: **{% jdoc_package scala::lang.scala.ast %}**
+* Visualforce: **{% jdoc_package visualforce::lang.vf.ast %}**
+
+These deprecations have already been rolled out in a previous version for the
+following languages:
+* Java: {% jdoc_package java::lang.java.ast %}
+* Java Server Pages: {% jdoc_package jsp::lang.jsp.ast %}
+* Velocity Template Language: {% jdoc_package vm::lang.vm.ast %}
+
+Outside of these packages, these changes also concern the following TokenManager
+implementations, and their corresponding Parser if it exists (in the same package):
+
+*   {% jdoc cpp::lang.cpp.CppTokenManager %}
+*   {% jdoc java::lang.java.JavaTokenManager %}
+*   {% jdoc javascript::lang.ecmascript5.Ecmascript5TokenManager %}
+*   {% jdoc jsp::lang.jsp.JspTokenManager %}
+*   {% jdoc matlab::lang.matlab.MatlabTokenManager %}
+*   {% jdoc modelica::lang.modelica.ModelicaTokenManager %}
+*   {% jdoc objectivec::lang.objectivec.ObjectiveCTokenManager %}
+*   {% jdoc plsql::lang.plsql.PLSQLTokenManager %}
+*   {% jdoc python::lang.python.PythonTokenManager %}
+*   {% jdoc visualforce::lang.vf.VfTokenManager %}
+*   {% jdoc vm::lang.vm.VmTokenManager %}
+
+
+In the **Java AST** the following attributes are deprecated and will issue a warning when used in XPath rules:
+
+*   {% jdoc !!java::lang.java.ast.ASTAdditiveExpression#getImage() %} - use `getOperator()` instead
+*   {% jdoc !!java::lang.java.ast.ASTVariableDeclaratorId#getImage() %} - use `getName()` instead
+*   {% jdoc !!java::lang.java.ast.ASTVariableDeclaratorId#getVariableName() %} - use `getName()` instead
+
+###### For removal
+
+*   {% jdoc !!core::lang.Parser#getTokenManager(java.lang.String,java.io.Reader) %}
+*   {% jdoc !!core::lang.TokenManager#setFileName(java.lang.String) %}
+*   {% jdoc !!core::lang.ast.AbstractTokenManager#setFileName(java.lang.String) %}
+*   {% jdoc !!core::lang.ast.AbstractTokenManager#getFileName(java.lang.String) %}
+*   {% jdoc !!core::cpd.token.AntlrToken#getType() %} - use `getKind()` instead.
+*   {% jdoc core::lang.rule.ImmutableLanguage %}
+*   {% jdoc core::lang.rule.MockRule %}
+*   {% jdoc !!core::lang.ast.Node#getFirstParentOfAnyType(java.lang.Class[]) %}
+*   {% jdoc !!core::lang.ast.Node#getAsDocument() %}
+*   {% jdoc !!core::lang.ast.AbstractNode#hasDescendantOfAnyType(java.lang.Class[]) %}
+*   {% jdoc !!java::lang.java.ast.ASTRecordDeclaration#getComponentList() %}
+*   Multiple fields, constructors and methods in {% jdoc core::lang.rule.XPathRule %}. See javadoc for details.
 
 #### 6.22.0
 
@@ -769,14 +989,22 @@ large projects, with many duplications, it was causing `OutOfMemoryError`s (see 
     will be removed with PMD 7.0.0. The rule is replaced by the more general
     {% rule "java/multithreading/UnsynchronizedStaticFormatter" %}.
 
+*   The two Java rules {% rule "java/bestpractices/PositionLiteralsFirstInComparisons" %}
+    and {% rule "java/bestpractices/PositionLiteralsFirstInCaseInsensitiveComparisons" %} (ruleset `java-bestpractices`)
+    have been deprecated in favor of the new rule {% rule "java/bestpractices/LiteralsFirstInComparisons" %}.
 
+*   The Java rule [`AvoidFinalLocalVariable`](https://pmd.github.io/pmd-6.16.0/pmd_rules_java_codestyle.html#avoidfinallocalvariable) (`java-codestyle`) has been deprecated
+    and will be removed with PMD 7.0.0. The rule is controversial and also contradicts other existing
+    rules such as [`LocalVariableCouldBeFinal`](https://pmd.github.io/pmd-6.16.0/pmd_rules_java_codestyle.html#localvariablecouldbefinal). If the goal is to avoid defining
+    constants in a scope smaller than the class, then the rule [`AvoidDuplicateLiterals`](https://pmd.github.io/pmd-6.16.0/pmd_rules_java_errorprone.html#avoidduplicateliterals)
+    should be used instead.
 
+*   The Apex rule [`VariableNamingConventions`](https://pmd.github.io/pmd-6.15.0/pmd_rules_apex_codestyle.html#variablenamingconventions) (`apex-codestyle`) has been deprecated and
+    will be removed with PMD 7.0.0. The rule is replaced by the more general rules
+    [`FieldNamingConventions`](https://pmd.github.io/pmd-6.15.0/pmd_rules_apex_codestyle.html#fieldnamingconventions),
+    [`FormalParameterNamingConventions`](https://pmd.github.io/pmd-6.15.0/pmd_rules_apex_codestyle.html#formalparameternamingconventions),
+    [`LocalVariableNamingConventions`](https://pmd.github.io/pmd-6.15.0/pmd_rules_apex_codestyle.html#localvariablenamingconventions), and
+    [`PropertyNamingConventions`](https://pmd.github.io/pmd-6.15.0/pmd_rules_apex_codestyle.html#propertynamingconventions).
 
-
-
-
-
-
-
-
-
+*   The Java rule [`LoggerIsNotStaticFinal`](https://pmd.github.io/pmd-6.15.0/pmd_rules_java_errorprone.html#loggerisnotstaticfinal) (`java-errorprone`) has been deprecated
+    and will be removed with PMD 7.0.0. The rule is replaced by [`ProperLogger`](https://pmd.github.io/pmd-6.15.0/pmd_rules_java_errorprone.html#properlogger).

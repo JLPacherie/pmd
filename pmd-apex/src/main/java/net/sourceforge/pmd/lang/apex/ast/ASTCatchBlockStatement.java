@@ -1,13 +1,17 @@
-/**
+/*
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
 
 package net.sourceforge.pmd.lang.apex.ast;
 
+import net.sourceforge.pmd.annotation.InternalApi;
+
 import apex.jorje.semantic.ast.statement.CatchBlockStatement;
 
 public class ASTCatchBlockStatement extends AbstractApexNode<CatchBlockStatement> {
 
+    @Deprecated
+    @InternalApi
     public ASTCatchBlockStatement(CatchBlockStatement catchBlockStatement) {
         super(catchBlockStatement);
     }
@@ -26,5 +30,9 @@ public class ASTCatchBlockStatement extends AbstractApexNode<CatchBlockStatement
             return node.getVariable().getName();
         }
         return null;
+    }
+
+    public ASTBlockStatement getBody() {
+        return (ASTBlockStatement) getChild(0);
     }
 }

@@ -11,8 +11,8 @@ import java.util.Set;
 
 import net.sourceforge.pmd.lang.java.ast.ASTCompilationUnit;
 import net.sourceforge.pmd.lang.java.ast.ASTImportDeclaration;
+import net.sourceforge.pmd.lang.java.ast.internal.ImportWrapper;
 import net.sourceforge.pmd.lang.java.rule.AbstractJavaRule;
-import net.sourceforge.pmd.lang.rule.ImportWrapper;
 
 public class DuplicateImportsRule extends AbstractJavaRule {
 
@@ -66,7 +66,7 @@ public class DuplicateImportsRule extends AbstractJavaRule {
                         return true;
                     }
                 } else {
-                    Class<?> importClass = node.getClassTypeResolver().loadClass(thisImportOnDemand.getName());
+                    Class<?> importClass = node.getClassTypeResolver().loadClassOrNull(thisImportOnDemand.getName());
                     if (importClass != null) {
                         for (Method m : importClass.getMethods()) {
                             if (Modifier.isStatic(m.getModifiers()) && m.getName().equals(singleTypeName)) {

@@ -5,6 +5,8 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.sourceforge.pmd/pmd/badge.svg)](https://maven-badges.herokuapp.com/maven-central/net.sourceforge.pmd/pmd)
 [![Coverage Status](https://coveralls.io/repos/github/pmd/pmd/badge.svg)](https://coveralls.io/github/pmd/pmd)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a674ee8642ed44c6ba7633626ee95967)](https://www.codacy.com/app/pmd/pmd?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pmd/pmd&amp;utm_campaign=Badge_Grade)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md) 
+
 ## About
 
 **PMD** is a source code analyzer. It finds common programming flaws like unused variables, empty catch blocks,
@@ -13,7 +15,7 @@ Modelica, PLSQL, Apache Velocity, XML, XSL, Scala.
 
 Additionally it includes **CPD**, the copy-paste-detector. CPD finds duplicated code in
 C/C++, C#, Dart, Fortran, Go, Groovy, Java, JavaScript, JSP, Kotlin, Lua, Matlab, Modelica,
-Objective-C, Perl, PHP, PLSQL, Python, Ruby, Salesforce.com Apex, Scala, Swift and Visualforce.
+Objective-C, Perl, PHP, PLSQL, Python, Ruby, Salesforce.com Apex, Scala, Swift, Visualforce and XML.
 
 ## About this fork
 

@@ -1,4 +1,4 @@
-/**
+/*
  * BSD-style license; for more info see http://pmd.sourceforge.net/license.html
  */
 
@@ -6,6 +6,7 @@ package net.sourceforge.pmd.lang.java.rule;
 
 import java.util.List;
 
+import net.sourceforge.pmd.annotation.InternalApi;
 import net.sourceforge.pmd.lang.ast.Node;
 import net.sourceforge.pmd.lang.java.ast.ASTAnnotation;
 import net.sourceforge.pmd.lang.java.ast.ASTClassOrInterfaceDeclaration;
@@ -18,15 +19,20 @@ import net.sourceforge.pmd.lang.java.ast.ASTName;
 import net.sourceforge.pmd.lang.java.ast.TypeNode;
 import net.sourceforge.pmd.lang.java.typeresolution.TypeHelper;
 
+/**
+ * @deprecated Internal API
+ */
+@Deprecated
+@InternalApi
 public abstract class AbstractJUnitRule extends AbstractJavaRule {
 
     protected static final String JUNIT3_CLASS_NAME = "junit.framework.TestCase";
     protected static final String JUNIT4_CLASS_NAME = "org.junit.Test";
     protected static final String JUNIT5_CLASS_NAME = "org.junit.jupiter.api.Test";
 
-    private boolean isJUnit3Class;
-    private boolean isJUnit4Class;
-    private boolean isJUnit5Class;
+    protected boolean isJUnit3Class;
+    protected boolean isJUnit4Class;
+    protected boolean isJUnit5Class;
 
     @Override
     public Object visit(ASTCompilationUnit node, Object data) {
@@ -105,10 +111,10 @@ public abstract class AbstractJUnitRule extends AbstractJavaRule {
             if (((ASTClassOrInterfaceType) extendsList.getChild(0)).getImage().endsWith("TestCase")) {
                 return true;
             }
-            String className = cid.getImage();
+            String className = cid.getSimpleName();
             return className.endsWith("Test");
         } else if (hasImports(node, JUNIT3_CLASS_NAME)) {
-            return cid.getImage().endsWith("Test");
+            return cid.getSimpleName().endsWith("Test");
         }
         return false;
     }

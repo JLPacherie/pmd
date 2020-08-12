@@ -41,9 +41,7 @@ public abstract class AntlrTokenizer implements Tokenizer {
         } catch (final AntlrTokenManager.ANTLRSyntaxError err) {
             // Wrap exceptions of the ANTLR tokenizer in a TokenMgrError, so they are correctly handled
             // when CPD is executed with the '--skipLexicalErrors' command line option
-            throw new TokenMgrError("Lexical error in file " + tokenManager.getFileName() + " at line "
-                    + err.getLine() + ", column " + err.getColumn() + ".  Encountered: " + err.getMessage(),
-                    TokenMgrError.LEXICAL_ERROR);
+            throw new TokenMgrError(err.getLine(), err.getColumn(), tokenManager.getFileName(), err.getMessage(), err.getCause());
         } finally {
             tokenEntries.add(TokenEntry.getEOF());
         }
@@ -53,13 +51,13 @@ public abstract class AntlrTokenizer implements Tokenizer {
         return new AntlrTokenFilter(tokenManager);
     }
 
-    /* default */ static CharStream getCharStreamFromSourceCode(final SourceCode sourceCode) {
+    public static CharStream getCharStreamFromSourceCode(final SourceCode sourceCode) {
         StringBuilder buffer = sourceCode.getCodeBuffer();
         return CharStreams.fromString(buffer.toString());
     }
 
     private void processToken(final Tokens tokenEntries, final String fileName, final AntlrToken token) {
-        final TokenEntry tokenEntry = new TokenEntry(token.getImage(), fileName, token.getBeginLine(), token.getBeginColumn() + 1, token.getEndColumn() + 1);
+        final TokenEntry tokenEntry = new TokenEntry(token.getImage(), fileName, token.getBeginLine(), token.getBeginColumn(), token.getEndColumn());
         tokenEntries.add(tokenEntry);
     }
 }
