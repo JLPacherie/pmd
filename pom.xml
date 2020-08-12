@@ -304,7 +304,8 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${javadoc.plugin.version}</version>
                     <configuration>
-                        <quiet>true</quiet>
+<!--                         <source>8</source>
+ -->                        <quiet>true</quiet>
                         <doclint>none</doclint>
                         <excludePackageNames>*.internal</excludePackageNames>
                         <detectOfflineLinks>false</detectOfflineLinks>

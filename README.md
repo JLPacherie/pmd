@@ -23,6 +23,17 @@ This fork adds support for importing PMD defects into Coverity Connect. This wil
 
 To make it work use the PDM format **coverity** and import the generated file with the regular cov-import-results command of Coverity CLI.
 
+Building PMD:
+
+There's a known issue with JDK11+ and maven-javadoc-plugin. If you have an error such as 
+
+``[ERROR] Exit code: 1 - javadoc: error - The code being documented uses modules but the packages defined in https://docs.oracle.com/javase/8/docs/api/ are in the unnamed module.``
+
+during the compilation of javadoc your options are
+
+* Skip the javadoc creation by adding -Dmaven.javadoc.skip=true on the mvnw command line
+* Or, downgrade the javadoc plugin to 3.0.1 using -Djavadoc.plugin.version=3.0.1
+
 ## Source and Documentation
 
 ## Support

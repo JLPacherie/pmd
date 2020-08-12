@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import net.sourceforge.pmd.PMD;
 import net.sourceforge.pmd.RuleViolation;
@@ -247,10 +246,17 @@ public class CoverityRenderer extends AbstractIncrementingRenderer {
         // Beginning of JSON Array of file
         writer.write("\n\t\"sources\": [" + PMD.EOL);
 
-        writer.write(fileList.stream()
-                .map(f -> "\t\t\t{ \"file\": \"" + f + "\", \"encoding\": \"ASCII\" }")
-                .collect(Collectors.joining("," + PMD.EOL)));
-
+        for (int i = 0; i < fileList.size(); i++) {
+        	String file = fileList.get(i);
+        	writer.write("\t\t\t{ \"file\": \"");
+        	writer.write(file);
+        	writer.write("\", \"encoding\": \"ASCII\" }");
+        	if (i != fileList.size() -1 ) {
+        		writer.write(",");
+        	}
+        	writer.write(PMD.EOL);
+        }
+        
         writer.write("\n\t]\n}\n");
     }
 
